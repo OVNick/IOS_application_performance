@@ -38,7 +38,11 @@ final class GroupCell: UITableViewCell {
     /// Название группы.
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
         
@@ -85,7 +89,7 @@ private extension GroupCell {
             
             nameLabel.topAnchor.constraint(equalTo: backgroundCell.topAnchor),
             nameLabel.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 16),
-            nameLabel.rightAnchor.constraint(equalTo: backgroundCell.rightAnchor, constant: 16),
+            nameLabel.rightAnchor.constraint(equalTo: backgroundCell.rightAnchor, constant: -16),
             nameLabel.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor)
         ])
     }

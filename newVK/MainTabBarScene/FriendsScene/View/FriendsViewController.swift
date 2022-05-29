@@ -10,7 +10,7 @@ import UIKit
 /// Контроллер сцены "Друзья".
 final class FriendsViewController: UIViewController {
     
-    let cellIdentifire = "FriendsCell"
+    private let cellIdentifire = "FriendsCell"
     
     /// Массив друзей.
     private var friends: [FriendItemModel] = []
