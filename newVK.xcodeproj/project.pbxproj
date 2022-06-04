@@ -25,6 +25,8 @@
 		A88DFED72810845400662775 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88DFED62810845400662775 /* LoginViewController.swift */; };
 		A88DFEDC2810845600662775 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A88DFEDB2810845600662775 /* Assets.xcassets */; };
 		A88DFEDF2810845600662775 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A88DFEDD2810845600662775 /* LaunchScreen.storyboard */; };
+		A890217A2846947400380A8E /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89021792846947400380A8E /* NewsService.swift */; };
+		A890217D284B8FCC00380A8E /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A890217C284B8FCC00380A8E /* NewsModel.swift */; };
 		A8A790DE282D5E5F00EA13FD /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A790DD282D5E5F00EA13FD /* PhotoViewController.swift */; };
 		A8A790E1282D5F2600EA13FD /* PhotoItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A790E0282D5F2600EA13FD /* PhotoItemModel.swift */; };
 		A8A790E3282D608900EA13FD /* PhotoViewOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A790E2282D608900EA13FD /* PhotoViewOutput.swift */; };
@@ -93,6 +95,8 @@
 		A88DFEDE2810845600662775 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A88DFEE02810845600662775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A88DFEE72810848D00662775 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		A89021792846947400380A8E /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
+		A890217C284B8FCC00380A8E /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		A8A790DD282D5E5F00EA13FD /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		A8A790E0282D5F2600EA13FD /* PhotoItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItemModel.swift; sourceTree = "<group>"; };
 		A8A790E2282D608900EA13FD /* PhotoViewOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewOutput.swift; sourceTree = "<group>"; };
@@ -320,6 +324,8 @@
 		A83CA4762823A0C1009A9F8D /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				A890217B284B8F9E00380A8E /* Model */,
+				A89021792846947400380A8E /* NewsService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -455,6 +461,14 @@
 				A8CCE76D2830F7C300FCB199 /* LoginViewInput.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		A890217B284B8F9E00380A8E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A890217C284B8FCC00380A8E /* NewsModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		A8A790D6282D5D5600EA13FD /* PhotoScene */ = {
@@ -685,6 +699,8 @@
 				A83CA4822823ABF3009A9F8D /* FriendsViewController.swift in Sources */,
 				A8FB5C45282AFD91009DCC2D /* GroupCell.swift in Sources */,
 				A88296172811C5CD00B9EF10 /* Session.swift in Sources */,
+				A890217D284B8FCC00380A8E /* NewsModel.swift in Sources */,
+				A890217A2846947400380A8E /* NewsService.swift in Sources */,
 				A8FB5C47282B009C009DCC2D /* GroupsPresenter.swift in Sources */,
 				A83CA4612822AECA009A9F8D /* LoginPresenter.swift in Sources */,
 				A8FB5C41282AFAB1009DCC2D /* GroupItemModel.swift in Sources */,

@@ -45,26 +45,38 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard
-            let writerCell = tableView.dequeueReusableCell(withIdentifier: writerCellIdentifire) as? NewsWriterCell,
-            let textCell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifire) as? NewsTextCell,
-            let photoCell = tableView.dequeueReusableCell(withIdentifier: photoCellIdentifire) as? NewsPhotoCell,
-            let ratingCell = tableView.dequeueReusableCell(withIdentifier: ratingCellIdentifire) as? NewsRatingCell
-        else {
-            return UITableViewCell()
-        }
         
         switch indexPath.row {
         case 0:
+            guard
+                let writerCell = tableView.dequeueReusableCell(withIdentifier: writerCellIdentifire) as? NewsWriterCell
+            else {
+                return UITableViewCell()
+            }
             writerCell.configureNewsWriterCell()
             return writerCell
         case 1:
+            guard
+                let textCell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifire) as? NewsTextCell
+            else {
+                return UITableViewCell()
+            }
             textCell.configureNewsTextCell()
             return textCell
         case 2:
+            guard
+                let photoCell = tableView.dequeueReusableCell(withIdentifier: photoCellIdentifire) as? NewsPhotoCell
+            else {
+                return UITableViewCell()
+            }
             photoCell.configureNewsPhotoCell()
             return photoCell
         case 3:
+            guard
+                let ratingCell = tableView.dequeueReusableCell(withIdentifier: ratingCellIdentifire) as? NewsRatingCell
+            else {
+                return UITableViewCell()
+            }
             ratingCell.configureNewsRatingCell()
             return ratingCell
         default:
