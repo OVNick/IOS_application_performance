@@ -7,13 +7,20 @@
 
 import UIKit
 
+/// Контроллер сцены "Новости".
 final class NewsViewController: UIViewController {
+    ///  Свойство, обрабатывающее исходящие события.
+    var output: NewsViewOutput?
+    
+    /// Массив новостей.
+    private var news: [[NewsItemModel.CellType?]] = [[]]
+    
     /// Идентификатор ячейки с автором.
-    private let writerCellIdentifire = "NewsWriterCell"
+    private let writerCellIdentifire = "NewsAuthorCell"
     /// Идентификатор ячейки с текстом.
     private let textCellIdentifire = "NewsTextCell"
     /// Идентификатор ячейки с текстом.
-    private let photoCellIdentifire = "NewsPhotoCell"
+    private let attachmentsCellIdentifire = "NewsAttachmentsCell"
     /// Идентификатор ячейки с текстом.
     private let ratingCellIdentifire = "NewsRatingCell"
     
@@ -24,51 +31,117 @@ final class NewsViewController: UIViewController {
         return tableView
     }()
     
+    
+    
     // MARK: - LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        
         setupTableView()
         setupConstraints()
+        output?.loadNewsData()
     }
 }
 
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return news.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return news[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard
-            let writerCell = tableView.dequeueReusableCell(withIdentifier: writerCellIdentifire) as? NewsWriterCell,
-            let textCell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifire) as? NewsTextCell,
-            let photoCell = tableView.dequeueReusableCell(withIdentifier: photoCellIdentifire) as? NewsPhotoCell,
-            let ratingCell = tableView.dequeueReusableCell(withIdentifier: ratingCellIdentifire) as? NewsRatingCell
-        else {
-            return UITableViewCell()
-        }
         
-        switch indexPath.row {
-        case 0:
-            writerCell.configureNewsWriterCell()
-            return writerCell
-        case 1:
-            textCell.configureNewsTextCell()
+        switch news[indexPath.section][indexPath.row] {
+            
+        case .author(let imageURL, let firstName, let lastName, let date):
+            guard
+                let authorCell = tableView.dequeueReusableCell(withIdentifier: writerCellIdentifire) as? NewsAuthorCell
+            else {
+                return UITableViewCell()
+            }
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.output?.loadPhotoFromURL(url: imageURL) { image in
+                    DispatchQueue.main.async {
+                        authorCell.configureNewsAuthorCell(avatarImage: image, firstName: firstName, lastName: lastName, date: date)
+                    }
+                }
+            }
+            
+            return authorCell
+            
+        case .text(let text):
+            guard
+                let textCell = tableView.dequeueReusableCell(withIdentifier: textCellIdentifire) as? NewsTextCell
+            else {
+                return UITableViewCell()
+            }
+            
+            textCell.configureNewsTextCell(text: text)
+            
             return textCell
-        case 2:
-            photoCell.configureNewsPhotoCell()
-            return photoCell
-        case 3:
-            ratingCell.configureNewsRatingCell()
+            
+        case .attachments(let attachmentsArray):
+            
+            print(attachmentsArray)
+            
+            guard
+                let attachmentsCell = tableView.dequeueReusableCell(withIdentifier: attachmentsCellIdentifire) as? NewsAttachmentsCell
+            else {
+                return UITableViewCell()
+            }
+            
+            attachmentsCell.configureNewsAttachmentsCell()
+            
+            return attachmentsCell
+            
+        case .rating(let canLike,
+                     let countLike,
+                     let userLikes,
+                     let canPublish,
+                     let canPost,
+                     let countComment,
+                     let countReposted,
+                     let userReposted,
+                     let viewsCount):
+            guard
+                let ratingCell = tableView.dequeueReusableCell(withIdentifier: ratingCellIdentifire) as? NewsRatingCell
+            else {
+                return UITableViewCell()
+            }
+            
+            ratingCell.configureNewsRatingCell(likeImage: canLike == 1 ? UIImage(systemName: "suit.heart") : nil,
+                                               commentImage: canPost == 1 ? UIImage(systemName: "bubble.left") : nil,
+                                               repostImage: canPublish == 1 ? UIImage(systemName: "arrowshape.turn.up.right") : nil,
+                                               viewsImage: UIImage(systemName: "eye.fill"),
+                                               like: canLike == 1 ? String(countLike ?? 0) : nil,
+                                               comment: canPost == 1 ? String(countComment ?? 0) : nil,
+                                               repost: canPublish == 1 ? String(countReposted ?? 0) : nil,
+                                               views: String(viewsCount ?? 0))
             return ratingCell
+            
         default:
             return UITableViewCell()
+        }
+    }
+}
+
+// MARK: - FriendsViewInput
+
+extension NewsViewController: NewsViewInput {
+    // Устанавливаем друзей в таблицу.
+    func setNews(newsItemModel: [[NewsItemModel.CellType?]]) {
+        self.news = newsItemModel
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }
@@ -82,9 +155,9 @@ private extension NewsViewController {
         tableView.frame = self.view.bounds
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.register(NewsWriterCell.self, forCellReuseIdentifier: writerCellIdentifire)
+        tableView.register(NewsAuthorCell.self, forCellReuseIdentifier: writerCellIdentifire)
         tableView.register(NewsTextCell.self, forCellReuseIdentifier: textCellIdentifire)
-        tableView.register(NewsPhotoCell.self, forCellReuseIdentifier: photoCellIdentifire)
+        tableView.register(NewsAttachmentsCell.self, forCellReuseIdentifier: attachmentsCellIdentifire)
         tableView.register(NewsRatingCell.self, forCellReuseIdentifier: ratingCellIdentifire)
         tableView.showsVerticalScrollIndicator = false
         tableView.delegate = self

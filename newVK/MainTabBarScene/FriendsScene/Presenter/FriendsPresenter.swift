@@ -14,7 +14,6 @@ final class FriendsPresenter {
     weak var view: FriendsViewInput?
     private let router: FriendsRouterInput
     private let interactor: FriendsInteractorInput
-    private let items: [FriendItemModel] = []
 
     /// Инициализатор сцены "Друзья".
     init(router: FriendsRouterInput,

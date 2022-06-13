@@ -78,6 +78,8 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         let item = photo[indexPath.row]
         
+        cell.image = UIImage(named: "defaultImage")!
+        
         imageProvider.loadImage(url: item.icon) { image in
             cell.image = image
         }

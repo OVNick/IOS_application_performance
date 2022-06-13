@@ -18,6 +18,8 @@ struct Constants {
             case groupsGet = "/method/groups.get"
             /// Запрос информации о фото пользователя.
             case photoGet = "/method/photos.get"
+            /// Запрос новостей пользователя.
+            case newsfeedGet = "/method/newsfeed.get"
         }
         case scheme = "https"
         case host = "api.vk.com"

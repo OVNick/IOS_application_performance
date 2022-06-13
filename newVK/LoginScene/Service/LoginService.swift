@@ -17,7 +17,7 @@ final class LoginService: LoginServiceInput {
         urlComponents.host = "oauth.vk.com"
         urlComponents.path = "/authorize"
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: "8136636"),
+            URLQueryItem(name: "client_id", value: "8166873"),
             URLQueryItem(name: "scope", value: "friends, wall, groups, photos"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),

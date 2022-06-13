@@ -58,7 +58,9 @@ final class FriendsService: FriendsServiceInput {
             }
             do {
                 let result = try JSONDecoder().decode(DTO.Response<DTO.FriendsScene.Friend>.self, from: data).response.items
-                completion(.success(result))
+                DispatchQueue.main.async {
+                    completion(.success(result))
+                }
             } catch {
                 completion(.failure(.parseError))
             }

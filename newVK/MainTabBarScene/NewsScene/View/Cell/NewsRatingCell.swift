@@ -52,11 +52,21 @@ final class NewsRatingCell: UITableViewCell {
         
         return view
     }()
+    /// Стек содержащий просмотры
+    private lazy var stackViewsView: UIStackView = {
+        let view = UIStackView()
+        
+        view.spacing = 4
+        view.axis = .horizontal
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     /// Общий стек.
     private lazy var stackRatingView: UIStackView = {
         let view = UIStackView()
         
-        view.spacing = 96
+        view.spacing = 48
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -66,25 +76,25 @@ final class NewsRatingCell: UITableViewCell {
     /// Изображение лайка.
     private var iconLike: UIImage = UIImage() {
         didSet {
-            iconLikeImageView.image = iconLike
+            likeImageView.image = iconLike
         }
     }
     /// Изображение коммента.
     private var iconComment: UIImage = UIImage() {
         didSet {
-            iconCommentImageView.image = iconComment
+            commentImageView.image = iconComment
         }
     }
     /// Изображение репоста.
     private var iconRepost: UIImage = UIImage() {
         didSet {
-            iconRepostImageView.image = iconRepost
+            repostImageView.image = iconRepost
         }
     }
     
     
     /// Лайк.
-    private lazy var iconLikeImageView: UIImageView = {
+    private lazy var likeImageView: UIImageView = {
         let view = UIImageView()
         
         view.contentMode = .scaleAspectFit
@@ -95,7 +105,7 @@ final class NewsRatingCell: UITableViewCell {
         return view
     }()
     /// Коммент.
-    private lazy var iconCommentImageView: UIImageView = {
+    private lazy var commentImageView: UIImageView = {
         let view = UIImageView()
         
         view.contentMode = .scaleAspectFit
@@ -106,7 +116,7 @@ final class NewsRatingCell: UITableViewCell {
         return view
     }()
     /// Репост.
-    private lazy var iconRepostImageView: UIImageView = {
+    private lazy var repostImageView: UIImageView = {
         let view = UIImageView()
         
         view.contentMode = .scaleAspectFit
@@ -116,10 +126,21 @@ final class NewsRatingCell: UITableViewCell {
         
         return view
     }()
-      
+    /// Просмотры.
+    private lazy var viewsImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.contentMode = .scaleAspectFit
+        view.tintColor = .gray
+        view.layer.masksToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     
     ///  Кол-во лайков.
-    private lazy var like: UILabel = {
+    private lazy var likeCount: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor.gray
@@ -129,7 +150,7 @@ final class NewsRatingCell: UITableViewCell {
         return label
     }()
     ///  Кол-во комментов.
-    private lazy var comment: UILabel = {
+    private lazy var commentCount: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor.gray
@@ -139,7 +160,17 @@ final class NewsRatingCell: UITableViewCell {
         return label
     }()
     ///  Кол-во репостов.
-    private lazy var repost: UILabel = {
+    private lazy var repostCount: UILabel = {
+        let label = UILabel()
+        
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    ///  Кол-во просмотров.
+    private lazy var viewsCount: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor.gray
@@ -163,13 +194,24 @@ final class NewsRatingCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureNewsRatingCell() {
-        iconLikeImageView.image = UIImage(systemName: "suit.heart")
-        iconCommentImageView.image = UIImage(systemName: "bubble.left")
-        iconRepostImageView.image = UIImage(systemName: "arrowshape.turn.up.right")
-        like.text = "105"
-        comment.text = "51"
-        repost.text = "6"
+    func configureNewsRatingCell(likeImage: UIImage?,
+                                 commentImage: UIImage?,
+                                 repostImage: UIImage?,
+                                 viewsImage: UIImage?,
+                                 like: String?,
+                                 comment: String?,
+                                 repost: String?,
+                                 views: String?) {
+        
+        likeImageView.image = likeImage
+        commentImageView.image = commentImage
+        repostImageView.image = repostImage
+        viewsImageView.image = viewsImage
+        
+        likeCount.text = like
+        commentCount.text = comment
+        repostCount.text = repost
+        viewsCount.text = views
     }
 }
 
@@ -180,10 +222,11 @@ private extension NewsRatingCell {
     func setupSubviews() {
         contentView.addSubview(backgroundCell)
         
-        [iconLikeImageView, like].forEach { stackLikeView.addArrangedSubview($0) }
-        [iconCommentImageView, comment].forEach { stackCommentView.addArrangedSubview($0) }
-        [iconRepostImageView, repost].forEach { stackRepostView.addArrangedSubview($0) }
-        [stackLikeView, stackCommentView, stackRepostView].forEach { stackRatingView.addArrangedSubview($0) }
+        [likeImageView, likeCount].forEach { stackLikeView.addArrangedSubview($0) }
+        [commentImageView, commentCount].forEach { stackCommentView.addArrangedSubview($0) }
+        [repostImageView, repostCount].forEach { stackRepostView.addArrangedSubview($0) }
+        [viewsImageView, viewsCount].forEach { stackViewsView.addArrangedSubview($0) }
+        [stackLikeView, stackCommentView, stackRepostView, stackViewsView].forEach { stackRatingView.addArrangedSubview($0) }
         
         backgroundCell.addSubview(stackRatingView)
         
@@ -198,14 +241,17 @@ private extension NewsRatingCell {
             stackRatingView.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor, constant: -4),
             stackRatingView.centerXAnchor.constraint(equalTo: backgroundCell.centerXAnchor),
             
-            iconLikeImageView.widthAnchor.constraint(equalToConstant: 32),
-            iconLikeImageView.widthAnchor.constraint(equalToConstant: 32),
+            likeImageView.widthAnchor.constraint(equalToConstant: 32),
+            //likeImageView.widthAnchor.constraint(equalToConstant: 32),
             
-            iconCommentImageView.widthAnchor.constraint(equalToConstant: 32),
-            iconCommentImageView.widthAnchor.constraint(equalToConstant: 32),
+            commentImageView.widthAnchor.constraint(equalToConstant: 32),
+            //commentImageView.widthAnchor.constraint(equalToConstant: 32),
             
-            iconRepostImageView.widthAnchor.constraint(equalToConstant: 32),
-            iconRepostImageView.widthAnchor.constraint(equalToConstant: 32),
+            repostImageView.widthAnchor.constraint(equalToConstant: 32),
+            //repostImageView.widthAnchor.constraint(equalToConstant: 32),
+            
+            viewsImageView.widthAnchor.constraint(equalToConstant: 24),
+            //viewsImageView.widthAnchor.constraint(equalToConstant: 32),
         ])
     }
 }

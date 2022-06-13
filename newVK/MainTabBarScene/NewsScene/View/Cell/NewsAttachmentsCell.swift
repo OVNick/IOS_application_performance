@@ -1,5 +1,5 @@
 //
-//  NewsPhotoCell.swift
+//  NewsAttachmentsCell.swift
 //  newVK
 //
 //  Created by Николай Онучин on 29.05.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// Ячейка, отображающая фото.
-final class NewsPhotoCell: UITableViewCell {
+final class NewsAttachmentsCell: UITableViewCell {
     
     /// Фон ячейки.
     private lazy var backgroundCell: UIView = {
@@ -28,7 +28,7 @@ final class NewsPhotoCell: UITableViewCell {
     }
     
     /// Фото.
-    private lazy var iconImageView: UIImageView = {
+    var iconImageView: UIImageView = {
         let view = UIImageView()
         
         view.contentMode = .scaleAspectFill
@@ -51,20 +51,21 @@ final class NewsPhotoCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureNewsPhotoCell() {
+    func configureNewsAttachmentsCell() {
+        // Буду конфигурировать ячейку в зависимости от типа вложений
         iconImageView.image = UIImage(named: "defaultImage")
     }
 }
 
 
 // MARK: - Private
-private extension NewsPhotoCell {
+private extension NewsAttachmentsCell {
     /// Установка View.
     func setupSubviews() {
         
         contentView.addSubview(backgroundCell)
         backgroundCell.addSubview(iconImageView)
-                
+        
         NSLayoutConstraint.activate([
             backgroundCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             backgroundCell.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
@@ -72,10 +73,10 @@ private extension NewsPhotoCell {
             backgroundCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             backgroundCell.heightAnchor.constraint(equalToConstant: contentView.bounds.width),
             
-            iconImageView.topAnchor.constraint(equalTo: backgroundCell.topAnchor),
-            iconImageView.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor),
-            iconImageView.leftAnchor.constraint(equalTo: backgroundCell.leftAnchor, constant: 16),
-            iconImageView.rightAnchor.constraint(equalTo: backgroundCell.rightAnchor, constant: -16),
+            iconImageView.topAnchor.constraint(equalTo: backgroundCell.topAnchor, constant: 4),
+            iconImageView.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor, constant: -4),
+            iconImageView.leftAnchor.constraint(equalTo: backgroundCell.leftAnchor, constant: 0),
+            iconImageView.rightAnchor.constraint(equalTo: backgroundCell.rightAnchor, constant: 0),
         ])
     }
 }

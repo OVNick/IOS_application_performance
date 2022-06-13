@@ -7,10 +7,8 @@
 
 import UIKit
 
-/// Ячейка, отображающая автора новости.
+/// Ячейка, отображающая текст новости.
 final class NewsTextCell: UITableViewCell {
-    /// Высота ячейки.
-    private let heightCell: CGFloat = 48
     
     /// Фон ячейки.
     private lazy var backgroundCell: UIView = {
@@ -48,8 +46,8 @@ final class NewsTextCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureNewsTextCell() {
-        title.text = "Текст новости"
+    func configureNewsTextCell(text: String?) {
+        title.text = text
     }
 }
 
@@ -65,10 +63,9 @@ private extension NewsTextCell {
             backgroundCell.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
             backgroundCell.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
             backgroundCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-            backgroundCell.heightAnchor.constraint(equalToConstant: heightCell),
             
-            title.topAnchor.constraint(equalTo: backgroundCell.topAnchor, constant: 4),
-            title.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor, constant: 4),
+            title.topAnchor.constraint(equalTo: backgroundCell.topAnchor, constant: 8),
+            title.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor, constant: -8),
             title.leftAnchor.constraint(equalTo: backgroundCell.leftAnchor, constant: 16),
             title.rightAnchor.constraint(equalTo: backgroundCell.rightAnchor, constant: -16),
         ])
