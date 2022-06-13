@@ -41,13 +41,14 @@ private extension MainTabBarViewController {
         
         let friendsAssembly = FriendsAssembly.makeFriendsListVC()
         let groupsAssembly = GroupsAssembly.makeGroupsListVC()
+        let newsAssembly = NewsAssembly.makeNewsListVC()
         
         // Cоздаем элементы панели вкладок.
         let friends = createNavController(for: friendsAssembly,
                                           title: "Друзья",
                                           image: friendIcon)
         
-        let news = createNavController(for: NewsViewController(),
+        let news = createNavController(for: newsAssembly,
                                           title: "Новости",
                                           image: newsIcon)
 

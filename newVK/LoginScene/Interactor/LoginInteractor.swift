@@ -63,7 +63,6 @@ extension LoginInteractor: LoginInteractorInput {
            let id = Int(userId) {
             Session.instance.userId = id
             Session.instance.token = token
-            print("token: \(token)")
             isValidKeys(true)
         } else {
             isValidKeys(false)

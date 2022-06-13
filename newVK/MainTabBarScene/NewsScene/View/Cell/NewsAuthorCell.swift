@@ -1,5 +1,5 @@
 //
-//  NewsWriterCell.swift
+//  NewsAuthorCell.swift
 //  newVK
 //
 //  Created by Николай Онучин on 29.05.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// Ячейка, отображающая автора новости.
-final class NewsWriterCell: UITableViewCell {
+final class NewsAuthorCell: UITableViewCell {
     /// Высота ячейки.
     private let heightCell: CGFloat = 48
     
@@ -18,12 +18,12 @@ final class NewsWriterCell: UITableViewCell {
     /// Изображение аватара.
     private var icon: UIImage = UIImage() {
         didSet {
-            iconImageView.image = icon
+            avatar.image = icon
         }
     }
     
     /// Аватар.
-    private lazy var iconImageView: UIImageView = {
+    private lazy var avatar: UIImageView = {
         let view = UIImageView()
         
         view.contentMode = .scaleAspectFill
@@ -101,22 +101,25 @@ final class NewsWriterCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureNewsWriterCell() {
-        iconImageView.image = UIImage(named: "defaultImage")
-        title.text = "Имя"
-        subtitle.text = "Фамилия"
-        publicationDate.text = "Дата публикации"
+    func configureNewsAuthorCell(avatarImage: UIImage?,
+                                 firstName: String?,
+                                 lastName: String?,
+                                 date: String?) {
+        avatar.image = avatarImage
+        title.text = firstName
+        subtitle.text = lastName
+        publicationDate.text = date
     }
 }
 
 
 // MARK: - Private
-private extension NewsWriterCell {
+private extension NewsAuthorCell {
     /// Установка View.
     func setupSubviews() {
         contentView.addSubview(backgroundCell)
         [title, subtitle].forEach { stackTitleView.addArrangedSubview($0) }
-        [iconImageView, stackTitleView, publicationDate].forEach { backgroundCell.addSubview($0) }
+        [avatar, stackTitleView, publicationDate].forEach { backgroundCell.addSubview($0) }
         
         NSLayoutConstraint.activate([
             backgroundCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
@@ -125,16 +128,16 @@ private extension NewsWriterCell {
             backgroundCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             backgroundCell.heightAnchor.constraint(equalToConstant: heightCell),
             
-            iconImageView.centerYAnchor.constraint(equalTo: backgroundCell.centerYAnchor),
-            iconImageView.leftAnchor.constraint(equalTo: backgroundCell.leftAnchor, constant: 16),
-            iconImageView.heightAnchor.constraint(equalToConstant: heightIcon),
-            iconImageView.widthAnchor.constraint(equalToConstant: heightIcon),
+            avatar.centerYAnchor.constraint(equalTo: backgroundCell.centerYAnchor),
+            avatar.leftAnchor.constraint(equalTo: backgroundCell.leftAnchor, constant: 16),
+            avatar.heightAnchor.constraint(equalToConstant: heightIcon),
+            avatar.widthAnchor.constraint(equalToConstant: heightIcon),
             
             stackTitleView.topAnchor.constraint(equalTo: backgroundCell.topAnchor, constant: 4),
-            stackTitleView.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 16),
+            stackTitleView.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 16),
             
             publicationDate.bottomAnchor.constraint(equalTo: backgroundCell.bottomAnchor, constant: -4),
-            publicationDate.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 16)
+            publicationDate.leftAnchor.constraint(equalTo: avatar.rightAnchor, constant: 16)
         ])
     }
 }
