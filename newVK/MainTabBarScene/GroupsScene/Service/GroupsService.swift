@@ -24,7 +24,7 @@ final class GroupsService: GroupsServiceInput {
         let session = URLSession(configuration: config)
         return session
     }()
-
+    
     // MARK: - GroupsServiceInput
     
     // Загружаем группы текущего пользователя.
@@ -46,7 +46,7 @@ final class GroupsService: GroupsServiceInput {
                                            method: .groupsGet,
                                            httpMethod: .get,
                                            params: params)
-
+        
         // Извлекаем содержимое URL-адреса и вызывает обработчик по завершении.
         let task = session.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
@@ -57,7 +57,9 @@ final class GroupsService: GroupsServiceInput {
             }
             do {
                 let result = try JSONDecoder().decode(DTO.Response<DTO.GroupsScene.Group>.self, from: data).response.items
-                completion(.success(result))
+                DispatchQueue.main.async {
+                    completion(.success(result))
+                }
             } catch {
                 completion(.failure(.parseError))
             }
@@ -75,18 +77,18 @@ extension URL {
                                    httpMethod: Constants.Service,
                                    params: [String: String]) -> URL {
         var queryItems: [URLQueryItem] = []
-
+        
         params.forEach { param, value in
             queryItems.append(URLQueryItem(name: param, value: value))
         }
-
+        
         /// Конструктор URL.
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.Service.scheme.rawValue
         urlComponents.host = Constants.Service.host.rawValue
         urlComponents.path = method.rawValue
         urlComponents.queryItems = queryItems
-
+        
         guard let url = urlComponents.url else {
             fatalError("URL is invalidate")
         }
