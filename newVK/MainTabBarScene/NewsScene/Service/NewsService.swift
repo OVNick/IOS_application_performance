@@ -46,28 +46,25 @@ final class NewsService: NewsServiceInput {
                                          httpMethod: .get,
                                          params: params)
         
-        DispatchQueue.global().async {
-            
-            // Извлекаем содержимое URL-адреса и вызывает обработчик по завершении.
-            let task = self.session.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    if let error = error {
-                        completion(.failure(.requestError(error)))
-                    }
-                    return
+        // Извлекаем содержимое URL-адреса и вызывает обработчик по завершении.
+        let task = self.session.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                if let error = error {
+                    completion(.failure(.requestError(error)))
                 }
-                do {
-                    let result = try JSONDecoder().decode(NewsModel.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(.success(result))
-                    }
-                } catch let someError{
-                    print(someError)
-                    completion(.failure(.parseError))
-                }
+                return
             }
-            task.resume()
+            do {
+                let result = try JSONDecoder().decode(NewsModel.self, from: data)
+                DispatchQueue.main.async {
+                    completion(.success(result))
+                }
+            } catch let someError{
+                print(someError)
+                completion(.failure(.parseError))
+            }
         }
+        task.resume()
     }
 }
 
