@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PromiseKit
 
 // MARK: - Error
 
@@ -15,6 +16,8 @@ enum GroupsServiceError: Error {
     case parseError
     /// Ошибка запроса.
     case requestError(Error)
+    /// Ошибка получения токена
+    case getTokenError
 }
 
 final class GroupsService: GroupsServiceInput {
@@ -27,44 +30,54 @@ final class GroupsService: GroupsServiceInput {
     
     // MARK: - GroupsServiceInput
     
-    // Загружаем группы текущего пользователя.
-    func loadGroups(completion: @escaping ((Result<[DTO.GroupsScene.Group], GroupsServiceError>) -> ())) {
-        
-        // Получаем токен текущего пользователя из синглтона "Session".
-        guard let token = Session.instance.token else { return }
-        
-        /// Массив с параметрами запроса.
-        let params: [String: String] = [
-            "v": "5.131",
-            "access_token": token,
-            "extended": "1",
-            "fields": "photo_50"
-        ]
-        
-        /// URL запроса групп текущего пользователя.
-        let url: URL = .configureGroupsURL(token: token,
-                                           method: .groupsGet,
-                                           httpMethod: .get,
-                                           params: params)
-        
-        // Извлекаем содержимое URL-адреса и вызывает обработчик по завершении.
-        let task = session.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                if let error = error {
-                    completion(.failure(.requestError(error)))
-                }
+    func getURL() -> Promise<URL> {
+        return Promise { resolver in
+            // Получаем токен текущего пользователя из синглтона "Session".
+            guard let token = Session.instance.token else {
+                resolver.reject(GroupsServiceError.getTokenError)
                 return
             }
+            
+            /// Массив с параметрами запроса.
+            let params: [String: String] = [
+                "v": "5.131",
+                "access_token": token,
+                "extended": "1",
+                "fields": "photo_50"
+            ]
+            
+            /// URL запроса групп текущего пользователя.
+            let url: URL = .configureGroupsURL(token: token,
+                                               method: .groupsGet,
+                                               httpMethod: .get,
+                                               params: params)
+            resolver.fulfill(url)
+        }
+    }
+    
+    func getData(_ url: URL) -> Promise<Data> {
+        return Promise { resolver in
+            session.dataTask(with: url) { data, response, error in
+                guard let data = data else {
+                    if let error = error {
+                        resolver.reject(GroupsServiceError.requestError(error))
+                    }
+                    return
+                }
+                resolver.fulfill(data)
+            }.resume()
+        }
+    }
+    
+    func getParsedData(_ data: Data) -> Promise<[DTO.GroupsScene.Group]> {
+        return Promise { resolver  in
             do {
                 let result = try JSONDecoder().decode(DTO.Response<DTO.GroupsScene.Group>.self, from: data).response.items
-                DispatchQueue.main.async {
-                    completion(.success(result))
-                }
+                resolver.fulfill(result)
             } catch {
-                completion(.failure(.parseError))
+                resolver.reject(GroupsServiceError.parseError)
             }
         }
-        task.resume()
     }
 }
 

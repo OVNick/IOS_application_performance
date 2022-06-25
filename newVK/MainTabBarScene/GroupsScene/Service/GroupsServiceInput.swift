@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import PromiseKit
 
 /// Входящий протокол сервиса сцены "Группы".
 protocol GroupsServiceInput {
-    /// Загрузить группы текущего пользователя.
-    func loadGroups(completion: @escaping ((Result<[DTO.GroupsScene.Group], GroupsServiceError>) -> ()))
+    func getURL() -> Promise<URL>
+    func getData(_ url: URL) -> Promise<Data>
+    func getParsedData(_ data: Data) -> Promise<[DTO.GroupsScene.Group]>
 }

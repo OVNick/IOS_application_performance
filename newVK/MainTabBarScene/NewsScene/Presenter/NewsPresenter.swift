@@ -47,7 +47,8 @@ private extension NewsPresenter {
     /// Формирование экземпляра "Автор".
     private func formAuthorObject(sourceId: Int?,
                                   profiles: [Profile],
-                                  groups: [Group]) -> NewsItemModel.CellType? {
+                                  groups: [Group],
+                                  timeIntervalSince1970: Int?) -> NewsItemModel.CellType? {
         
         var imageURL: String
         var firstName: String?
@@ -67,15 +68,25 @@ private extension NewsPresenter {
             firstName = groups.first(where: { $0.id == -id })?.name
         }
         
-        date = formDate()
+        date = formDate(timeIntervalSince1970: timeIntervalSince1970)
         
         return NewsItemModel.CellType.author(imageURL, firstName, lastName, date)
     }
     
     /// Формирование свойства "Дата".
-    private func formDate() -> String {
+    private func formDate(timeIntervalSince1970: Int?) -> String? {
+        guard let date = timeIntervalSince1970 else {
+            return nil
+        }
         
-        return "Дата публикации"
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTS")
+        
+        let newFormatDate = Date(timeIntervalSince1970: Double(date))
+        
+        return dateFormatter.string(from: newFormatDate)
     }
     
     /// Формирование экземпляра "Текст".
@@ -141,7 +152,8 @@ private extension NewsPresenter {
         let newsArray = model.response.items.compactMap { item -> [NewsItemModel.CellType?] in
             let element = NewsItemModel.init(author: formAuthorObject(sourceId: item.sourceID,
                                                                       profiles: profiles,
-                                                                      groups: groups),
+                                                                      groups: groups,
+                                                                      timeIntervalSince1970: item.date),
                                              text: formTextObject(text: item.text),
                                              attachments: formAttachmentsObject(attachments: item.attachments),
                                              rating: formRatingObject(like: item.likes,
