@@ -15,6 +15,13 @@ final class NewsPresenter {
     weak var view: NewsViewInput?
     private let interactor: NewsInteractorInput
     
+    let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "dd.MM.yyyy HH:mm"
+        df.timeZone = TimeZone(abbreviation: "UTS")
+        return df
+    }()
+    
     /// Инициализатор сцены "Новости".
     init(interactor: NewsInteractorInput) {
         self.interactor = interactor
@@ -84,11 +91,6 @@ private extension NewsPresenter {
         guard let date = timeIntervalSince1970 else {
             return nil
         }
-        
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTS")
         
         let newFormatDate = Date(timeIntervalSince1970: Double(date))
         
