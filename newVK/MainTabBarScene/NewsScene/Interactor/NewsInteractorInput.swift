@@ -14,4 +14,6 @@ protocol NewsInteractorInput {
     func loadNews(completion: @escaping (NewsModel) -> Void)
     /// Загрузить фото по URL.
     func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void)
+    
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void)
 }

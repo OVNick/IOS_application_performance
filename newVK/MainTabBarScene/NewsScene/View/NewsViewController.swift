@@ -68,8 +68,16 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
+//            DispatchQueue.global(qos: .userInteractive).async {
+//                self.output?.loadPhotoFromURL(url: imageURL) { image in
+//                    DispatchQueue.main.async {
+//                        authorCell.configureNewsAuthorCell(avatarImage: image, firstName: firstName, lastName: lastName, date: date)
+//                    }
+//                }
+//            }
+            
             DispatchQueue.global(qos: .userInteractive).async {
-                self.output?.loadPhotoFromURL(url: imageURL) { image in
+                self.output?.loadPhotoFromCache(url: imageURL) { image in
                     DispatchQueue.main.async {
                         authorCell.configureNewsAuthorCell(avatarImage: image, firstName: firstName, lastName: lastName, date: date)
                     }

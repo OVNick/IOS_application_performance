@@ -38,6 +38,12 @@ extension NewsPresenter: NewsViewOutput {
             completion(image)
         }
     }
+    // Загружаем фото из кеша.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
+        interactor.loadPhotoFromCache(url: url) { image in
+            completion(image)
+        }
+    }
 }
 
 // MARK: - Private
