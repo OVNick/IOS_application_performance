@@ -13,8 +13,9 @@ final class NewsAssembly {
     /// - Returns: ViewController.
     static func makeNewsListVC() -> UIViewController {
         let imageLoader = ImageLoaderHelper()
+        let photoCacheService = PhotoCacheService()
         let vc = NewsViewController()
-        let interactor = NewsInteractor(imageProvider: imageLoader)
+        let interactor = NewsInteractor(imageProvider: imageLoader, photoCacheService: photoCacheService)
         let presenter = NewsPresenter(interactor: interactor)
         vc.output = presenter
         presenter.view = vc
