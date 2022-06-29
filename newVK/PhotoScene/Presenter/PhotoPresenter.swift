@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Презентер сцены "Фото".
 final class PhotoPresenter {
@@ -32,6 +33,13 @@ extension PhotoPresenter: PhotoViewOutput {
             guard let self = self else { return }
             let items = self.formPhotoArray(from: photo)
             self.view?.setPhoto(photo: items)
+        }
+    }
+    
+    // Загружаем фото из кеша.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
+        interactor.loadPhotoFromCache(url: url) { image in
+            completion(image)
         }
     }
 }

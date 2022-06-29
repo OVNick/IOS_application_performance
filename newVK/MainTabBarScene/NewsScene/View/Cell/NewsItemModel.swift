@@ -17,11 +17,11 @@ struct NewsItemModel {
         /// (0: text)
         case text(String?)
         /// ([0: type])
-        case attachments([AttachmentType])
+        case attachments([AttachmentType], String?)
         /// (0: canLike, 1: countLike, 2: userLikes, 3: canPublish, 4:  canPost, 5: countComment, 6: countReposted, 7: userReposted, 8: viewsCount)
         case rating(Int?, Int?, Int?, Int?, Int?, Int?, Int?, Int?, Int?)
     }
-    
+        
     let author: CellType?
     let text: CellType?
     let attachments: CellType?

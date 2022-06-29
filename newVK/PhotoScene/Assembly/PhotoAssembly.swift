@@ -11,8 +11,9 @@ import UIKit
 final class PhotoAssembly {
     static func makePhotoListVC() -> UIViewController {
         let imageLoader = ImageLoaderHelper()
-        let vc = PhotoViewController(imageProvider: imageLoader)
-        let interactor = PhotoInteractor()
+        let photoCacheService = PhotoCacheService()
+        let vc = PhotoViewController()
+        let interactor = PhotoInteractor(imageProvider: imageLoader, photoCacheService: photoCacheService)
         let presenter = PhotoPresenter(interactor: interactor)
         
         vc.output = presenter

@@ -79,9 +79,10 @@ final class FriendCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureCell(With model: FriendItemModel) {
-        firstNameLabel.text = model.title
-        lastNameLabel.text = model.subtitle
+    func configureCell(firstName: String?, lastName: String, avatar: UIImage?) {
+        firstNameLabel.text = firstName
+        lastNameLabel.text = lastName
+        iconImageView.image = avatar
     }
 }
 

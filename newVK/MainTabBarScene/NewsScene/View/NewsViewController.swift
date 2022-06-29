@@ -68,14 +68,6 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
-//            DispatchQueue.global(qos: .userInteractive).async {
-//                self.output?.loadPhotoFromURL(url: imageURL) { image in
-//                    DispatchQueue.main.async {
-//                        authorCell.configureNewsAuthorCell(avatarImage: image, firstName: firstName, lastName: lastName, date: date)
-//                    }
-//                }
-//            }
-            
             DispatchQueue.global(qos: .userInteractive).async {
                 self.output?.loadPhotoFromCache(url: imageURL) { image in
                     DispatchQueue.main.async {
@@ -97,9 +89,8 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
             
             return textCell
             
-        case .attachments(let attachmentsArray):
-            
-            print(attachmentsArray)
+        case .attachments(let attachmentsArray,
+                          let photoURL):
             
             guard
                 let attachmentsCell = tableView.dequeueReusableCell(withIdentifier: attachmentsCellIdentifire) as? NewsAttachmentsCell
@@ -107,7 +98,24 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
-            attachmentsCell.configureNewsAttachmentsCell()
+            // Проверка на наличие URL фото (временное решение, буду выводить в отдельную функцию все attachments).
+            if let url = photoURL {
+                
+                
+                DispatchQueue.global(qos: .userInteractive).async {
+                    self.output?.loadPhotoFromCache(url: url) { image in
+                        DispatchQueue.main.async {
+                            attachmentsCell.configureNewsAttachmentsCell(attachmentsType: nil, photo: image)
+                        }
+                    }
+                }
+            } else {
+                let attachmentType = attachmentsArray.first?.rawValue
+                attachmentsCell.configureNewsAttachmentsCell(attachmentsType: attachmentType, photo: nil)
+                print(attachmentsArray)
+            }
+            
+            
             
             return attachmentsCell
             

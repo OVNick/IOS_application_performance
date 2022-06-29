@@ -13,9 +13,10 @@ final class FriendsAssembly {
     /// - Returns: ViewController.
     static func makeFriendsListVC() -> UIViewController {
         let imageLoader = ImageLoaderHelper()
-        let vc = FriendsViewController(imageProvider: imageLoader)
+        let photoCacheService = PhotoCacheService()
+        let vc = FriendsViewController()
         let router = FriendsRouter(currentVC: vc)
-        let interactor = FriendsInteractor()
+        let interactor = FriendsInteractor(imageProvider: imageLoader, photoCacheService: photoCacheService)
         let presenter = FriendsPresenter(router: router, interactor: interactor)
         vc.output = presenter
         presenter.view = vc

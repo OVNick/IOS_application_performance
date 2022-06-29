@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Презентер сцены "Группы".
 final class GroupsPresenter {
@@ -31,6 +32,13 @@ extension GroupsPresenter: GroupsViewOutput {
             guard let self = self else { return }
             let items = self.formGroupsArray(from: groups)
             self.view?.setGroups(groups: items)
+        }
+    }
+    
+    // Загружаем фото из кеша.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
+        interactor.loadPhotoFromCache(url: url) { image in
+            completion(image)
         }
     }
 }

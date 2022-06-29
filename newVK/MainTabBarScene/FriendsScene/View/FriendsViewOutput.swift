@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Исходящий протокол сцены "Друзья".
 protocol FriendsViewOutput {
@@ -13,4 +14,6 @@ protocol FriendsViewOutput {
     func loadFriendsData()
     ///  Обработать нажатие на ячейку.
     func cellTapAction(userId: Int)
+    /// Загрузить фото, используя кеш.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void)
 }

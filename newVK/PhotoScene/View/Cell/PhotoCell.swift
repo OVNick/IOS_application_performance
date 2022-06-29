@@ -33,6 +33,11 @@ final class PhotoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    /// Конфигуратор ячейки.
+    func configureCell(image: UIImage?) {
+        photoImageView.image = image
+    }
 }
 
 

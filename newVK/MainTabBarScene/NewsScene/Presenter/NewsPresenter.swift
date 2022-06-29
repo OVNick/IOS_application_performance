@@ -39,12 +39,7 @@ extension NewsPresenter: NewsViewOutput {
             self.view?.setNews(newsItemModel: items)
         }
     }
-    // Загружаем фото по URL.
-    func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void) {
-        interactor.loadPhotoFromURL(url: url) { image in
-            completion(image)
-        }
-    }
+
     // Загружаем фото из кеша.
     func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
         interactor.loadPhotoFromCache(url: url) { image in
@@ -124,7 +119,9 @@ private extension NewsPresenter {
         
         arrayAttachments = arrayAttachments.compactMap{ $0 }
         
-        return NewsItemModel.CellType.attachments(arrayAttachments)
+        let photoURL = attachments?.first?.photo?.sizes?.last?.url
+        
+        return NewsItemModel.CellType.attachments(arrayAttachments, photoURL)
     }
     
     /// Формирование экземпляра "Рейтинг".

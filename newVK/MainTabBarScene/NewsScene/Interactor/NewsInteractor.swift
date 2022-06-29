@@ -39,13 +39,6 @@ extension NewsInteractor: NewsInteractorInput {
         }
     }
     
-    // Загружаем фото по URL.
-    func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void) {
-        imageProvider.loadImage(url: url) { image in
-            completion(image)
-        }
-    }
-    
     // Загружаем фото, используя кеш.
     func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
         // Проверка на источник загрузки.
@@ -61,6 +54,16 @@ extension NewsInteractor: NewsInteractorInput {
                 // Пробрасываем в completion.
                 completion(photo)
             }
+        }
+    }
+}
+
+// MARK: - Private
+extension NewsInteractor {
+    // Загружаем фото по URL.
+    func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void) {
+        imageProvider.loadImage(url: url) { image in
+            completion(image)
         }
     }
 }

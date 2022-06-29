@@ -18,18 +18,7 @@ final class GroupsViewController: UIViewController {
     
     ///  Свойство, обрабатывающее исходящие события.
     var output: GroupsViewOutput?
-    
-    private let imageProvider: ImageLoaderHelperProtocol
-
-    init(imageProvider: ImageLoaderHelperProtocol) {
-        self.imageProvider = imageProvider
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+        
     /// Таблица для отображения групп.
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -70,11 +59,13 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = groups[indexPath.row]
         
-        imageProvider.loadImage(url: item.icon) { image in
-            cell.iconGroup = image
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.output?.loadPhotoFromCache(url: item.icon) { image in
+                DispatchQueue.main.async {
+                    cell.configureCell(name: item.title, avatar: image)
+                }
+            }
         }
-        
-        cell.configureCell(With: item)
         
         return cell
     }

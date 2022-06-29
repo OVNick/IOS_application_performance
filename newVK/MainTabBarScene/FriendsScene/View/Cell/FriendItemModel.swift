@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Модель друга.
 struct FriendItemModel {
