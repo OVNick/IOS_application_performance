@@ -56,7 +56,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return news[section].count
     }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch news[indexPath.section][indexPath.row] {
@@ -100,8 +100,6 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
             
             // Проверка на наличие URL фото (временное решение, буду выводить в отдельную функцию все attachments).
             if let url = photoURL {
-                
-                
                 DispatchQueue.global(qos: .userInteractive).async {
                     self.output?.loadPhotoFromCache(url: url) { image in
                         DispatchQueue.main.async {
