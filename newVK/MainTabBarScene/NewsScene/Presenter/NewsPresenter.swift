@@ -15,6 +15,13 @@ final class NewsPresenter {
     weak var view: NewsViewInput?
     private let interactor: NewsInteractorInput
     
+    let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "dd.MM.yyyy HH:mm"
+        df.timeZone = TimeZone(abbreviation: "UTS")
+        return df
+    }()
+    
     /// Инициализатор сцены "Новости".
     init(interactor: NewsInteractorInput) {
         self.interactor = interactor
@@ -32,12 +39,7 @@ extension NewsPresenter: NewsViewOutput {
             self.view?.setNews(newsItemModel: items)
         }
     }
-    // Загружаем фото по URL.
-    func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void) {
-        interactor.loadPhotoFromURL(url: url) { image in
-            completion(image)
-        }
-    }
+
     // Загружаем фото из кеша.
     func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
         interactor.loadPhotoFromCache(url: url) { image in
@@ -85,11 +87,6 @@ private extension NewsPresenter {
             return nil
         }
         
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTS")
-        
         let newFormatDate = Date(timeIntervalSince1970: Double(date))
         
         return dateFormatter.string(from: newFormatDate)
@@ -122,7 +119,9 @@ private extension NewsPresenter {
         
         arrayAttachments = arrayAttachments.compactMap{ $0 }
         
-        return NewsItemModel.CellType.attachments(arrayAttachments)
+        let photoURL = attachments?.first?.photo?.sizes?.last?.url
+        
+        return NewsItemModel.CellType.attachments(arrayAttachments, photoURL)
     }
     
     /// Формирование экземпляра "Рейтинг".

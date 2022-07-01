@@ -12,8 +12,6 @@ import UIKit
 protocol NewsInteractorInput {
     /// Загрузить новости.
     func loadNews(completion: @escaping (NewsModel) -> Void)
-    /// Загрузить фото по URL.
-    func loadPhotoFromURL(url: String, completion: @escaping (UIImage) -> Void)
-    
+    /// Загрузить фото.
     func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void)
 }

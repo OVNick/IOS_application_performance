@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Презентер сцены "Друзья".
 final class FriendsPresenter {
@@ -27,6 +28,13 @@ final class FriendsPresenter {
 // MARK: - FriendsViewOutput
 
 extension FriendsPresenter: FriendsViewOutput {
+    
+    // Загружаем фото из кеша.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void) {
+        interactor.loadPhotoFromCache(url: url) { image in
+            completion(image)
+        }
+    }
     
     // Загружаем друзей.
     func loadFriendsData() {

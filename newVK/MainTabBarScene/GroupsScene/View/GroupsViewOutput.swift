@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 /// Исходящий протокол сцены "Группы".
 protocol GroupsViewOutput {
     /// Загрузить группы.
     func loadGroupsData()
+    /// Загрузить фото, используя кеш.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void)
 }

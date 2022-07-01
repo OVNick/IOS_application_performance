@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Входящий протокол интерактора  сцены "Друзья".
 protocol FriendsInteractorInput {
@@ -13,4 +14,6 @@ protocol FriendsInteractorInput {
     func loadFriends(completion: @escaping ([DTO.FriendsScene.Friend]) -> Void)
     /// Загрузить id выбранного друга в DataManager.
     func loadId(userId: Int)
+    /// Загрузить фото.
+    func loadPhotoFromCache(url: String, completion: @escaping (UIImage) -> Void)
 }

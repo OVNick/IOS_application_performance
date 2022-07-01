@@ -13,8 +13,9 @@ final class GroupsAssembly {
     /// - Returns: ViewController.
     static func makeGroupsListVC() -> UIViewController {
         let imageLoader = ImageLoaderHelper()
-        let vc = GroupsViewController(imageProvider: imageLoader)
-        let interactor = GroupsInteractor()
+        let photoCacheService = PhotoCacheService()
+        let vc = GroupsViewController()
+        let interactor = GroupsInteractor(imageProvider: imageLoader, photoCacheService: photoCacheService)
         let presenter = GroupsPresenter(interactor: interactor)
         
         vc.output = presenter

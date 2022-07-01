@@ -59,8 +59,9 @@ final class GroupCell: UITableViewCell {
     }
     
     /// Конфигуратор ячейки.
-    func configureCell(With model: GroupItemModel) {
-        nameLabel.text = model.title
+    func configureCell(name: String?, avatar: UIImage?) {
+        nameLabel.text = name
+        iconImageView.image = avatar
     }
 }
 

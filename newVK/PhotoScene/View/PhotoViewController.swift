@@ -19,17 +19,6 @@ final class PhotoViewController: UIViewController {
     ///  Свойство, обрабатывающее исходящие события.
     var output: PhotoViewOutput?
     
-    private let imageProvider: ImageLoaderHelperProtocol
-    
-    init(imageProvider: ImageLoaderHelperProtocol) {
-        self.imageProvider = imageProvider
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     /// Колекция для отображения фото.
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -77,11 +66,13 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.contentMode = .scaleAspectFit
         
         let item = photo[indexPath.row]
-        
-        cell.image = UIImage(named: "defaultImage")!
-        
-        imageProvider.loadImage(url: item.icon) { image in
-            cell.image = image
+  
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.output?.loadPhotoFromCache(url: item.icon) { image in
+                DispatchQueue.main.async {
+                    cell.configureCell(image: image)
+                }
+            }
         }
         
         return cell

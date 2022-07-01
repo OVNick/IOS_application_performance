@@ -26,6 +26,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var stackLikeView: UIStackView = {
         let view = UIStackView()
         
+        view.backgroundColor = .white
         view.spacing = 4
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +37,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var stackCommentView: UIStackView = {
         let view = UIStackView()
         
+        view.backgroundColor = .white
         view.spacing = 4
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +48,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var stackRepostView: UIStackView = {
         let view = UIStackView()
         
+        view.backgroundColor = .white
         view.spacing = 4
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +59,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var stackViewsView: UIStackView = {
         let view = UIStackView()
         
+        view.backgroundColor = .white
         view.spacing = 4
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +70,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var stackRatingView: UIStackView = {
         let view = UIStackView()
         
+        view.backgroundColor = .white
         view.spacing = 48
         view.axis = .horizontal
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -76,18 +81,21 @@ final class NewsRatingCell: UITableViewCell {
     /// Изображение лайка.
     private var iconLike: UIImage = UIImage() {
         didSet {
+            likeImageView.backgroundColor = .white
             likeImageView.image = iconLike
         }
     }
     /// Изображение коммента.
     private var iconComment: UIImage = UIImage() {
         didSet {
+            commentImageView.backgroundColor = .white
             commentImageView.image = iconComment
         }
     }
     /// Изображение репоста.
     private var iconRepost: UIImage = UIImage() {
         didSet {
+            repostImageView.backgroundColor = .white
             repostImageView.image = iconRepost
         }
     }
@@ -97,6 +105,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var likeImageView: UIImageView = {
         let view = UIImageView()
         
+        view.backgroundColor = .white
         view.contentMode = .scaleAspectFit
         view.tintColor = .gray
         view.layer.masksToBounds = true
@@ -108,6 +117,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var commentImageView: UIImageView = {
         let view = UIImageView()
         
+        view.backgroundColor = .white
         view.contentMode = .scaleAspectFit
         view.tintColor = .gray
         view.layer.masksToBounds = true
@@ -119,6 +129,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var repostImageView: UIImageView = {
         let view = UIImageView()
         
+        view.backgroundColor = .white
         view.contentMode = .scaleAspectFit
         view.tintColor = .gray
         view.layer.masksToBounds = true
@@ -130,6 +141,7 @@ final class NewsRatingCell: UITableViewCell {
     private lazy var viewsImageView: UIImageView = {
         let view = UIImageView()
         
+        view.backgroundColor = .white
         view.contentMode = .scaleAspectFit
         view.tintColor = .gray
         view.layer.masksToBounds = true
@@ -242,16 +254,12 @@ private extension NewsRatingCell {
             stackRatingView.centerXAnchor.constraint(equalTo: backgroundCell.centerXAnchor),
             
             likeImageView.widthAnchor.constraint(equalToConstant: 32),
-            //likeImageView.widthAnchor.constraint(equalToConstant: 32),
             
             commentImageView.widthAnchor.constraint(equalToConstant: 32),
-            //commentImageView.widthAnchor.constraint(equalToConstant: 32),
             
             repostImageView.widthAnchor.constraint(equalToConstant: 32),
-            //repostImageView.widthAnchor.constraint(equalToConstant: 32),
             
-            viewsImageView.widthAnchor.constraint(equalToConstant: 24),
-            //viewsImageView.widthAnchor.constraint(equalToConstant: 32),
+            viewsImageView.widthAnchor.constraint(equalToConstant: 24)
         ])
     }
 }
